@@ -1,6 +1,6 @@
 ## Grym Diary
 
-Esse é um diário digital com interface de calendário, selecione o dia de faça sua nota sobre o dia!
+Esse é um diário digital com interface de calendário, selecione o dia e faça sua nota sobre o dia!
 
 ## Estrutura do Projeto
 
