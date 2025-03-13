@@ -4,25 +4,21 @@
   padding: 10px;
 }
 
+.rbc-header {
+  text-transform: capitalize;
+}
+
 .titulo-mes{
   font-weight: 600;
 }
 
-/* Hover nos quadradinhos sem eventos */
+
 .rbc-day-bg:not(.rbc-day-bg--event):hover {
   background-color: #0981c2;
   cursor: pointer;
   transition: background-color 0.3s ease-in-out;
 }
 
-/* Hover nos quadradinhos com eventos */
-.rbc-day-bg.rbc-day-bg--event:hover {
-  background-color: #065681;
-  cursor: pointer;
-  transition: background-color 0.3s ease-in-out;
-}
-
-/* Cabeçalhos de semana */
 .rbc-header .rbc-header-cell {
   text-transform: capitalize;
 }
@@ -31,7 +27,6 @@
   outline: none;
 }
 
-/* Botões de navegação entre meses */
 .botao-anterior, .botao-proximo {
   background-color: #0981c2;
   color: white;
@@ -172,3 +167,5 @@
 .rbc-calendar {
   z-index: 0 !important; /* Garante que o calendário fique atrás do modal */
 }
+
+
