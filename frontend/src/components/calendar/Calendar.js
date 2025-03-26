@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Calendar } from "react-big-calendar";
-import { format, addMonths, subMonths, getDay, startOfWeek, parse } from "date-fns"; // Adicionei a função parse
+import { format, addMonths, subMonths, getDay, startOfWeek, parse } from "date-fns";
 import { dateFnsLocalizer } from "react-big-calendar";
 import ptBR from "date-fns/locale/pt-BR";
 import "react-big-calendar/lib/css/react-big-calendar.css";
@@ -12,7 +12,7 @@ import "./styles.css";
 const locales = { "pt-BR": ptBR };
 const localizer = dateFnsLocalizer({
   format: (date, formatStr) => format(date, formatStr, { locale: ptBR }),
-  parse: (value, formatStr) => parse(value, formatStr, new Date(), { locale: ptBR }), // Agora 'parse' está sendo usado corretamente
+  parse: (value, formatStr) => parse(value, formatStr, new Date(), { locale: ptBR }),
   startOfWeek: (date) => startOfWeek(date, { locale: ptBR }),
   getDay,
   locales,
@@ -20,9 +20,17 @@ const localizer = dateFnsLocalizer({
 
 Modal.setAppElement("#root");
 
-function MyCalendar() {
+function MyCalendar({ month, onBack }) {
+  const today = new Date();
+  const initialMonth = new Date(
+    today.getFullYear(),
+    month !== undefined ? month : today.getMonth(),
+    1
+  );
+
+  
+  const [date, setDate] = useState(initialMonth);
   const [events, setEvents] = useState([]);
-  const [date, setDate] = useState(new Date());
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
   const [note, setNote] = useState("");
@@ -31,10 +39,10 @@ function MyCalendar() {
     axios.get("http://localhost:5000/api/notes")
       .then(response => {
         const fetchedEvents = response.data.map(note => ({
-          start: new Date(note.start), 
-          end: new Date(note.end),     
+          start: new Date(note.start),
+          end: new Date(note.end),
           title: note.title,
-          _id: note._id,             
+          _id: note._id,
         }));
         setEvents(fetchedEvents);
       })
@@ -73,8 +81,8 @@ function MyCalendar() {
 
     if (existingEvent) {
       axios.put(`http://localhost:5000/api/notes/${existingEvent._id}`, eventData)
-        .then(response => {
-          setEvents(prevEvents => 
+        .then(() => {
+          setEvents(prevEvents =>
             prevEvents.map(event =>
               event._id === existingEvent._id ? { ...event, title: note } : event
             )
@@ -108,12 +116,27 @@ function MyCalendar() {
       });
   };
 
-  const handleNavigate = (newDate) => setDate(newDate);
+  const updateMonth = (newDate) => {
+    setDate(newDate);
+  };
 
   const formattedSelectedDate = selectedDate ? format(selectedDate, 'dd/MM/yyyy') : '';
 
   return (
     <div>
+
+      <div className="calendar-page-header">
+      <button
+        type="button"
+        className="back-round-button"
+        onClick={onBack}
+        onKeyDown={(e) => e.key === 'Enter' && onBack()}
+      >
+        ←
+      </button>
+      <h2 className="calendar-main-title">Minhas Anotações</h2>
+    </div>
+  
       <div style={{ height: 600 }}>
         <Calendar
           localizer={localizer}
@@ -125,15 +148,18 @@ function MyCalendar() {
           onSelectSlot={({ start }) => openModal(start)}
           views={["month"]}
           date={date}
-          onNavigate={handleNavigate}
+          onNavigate={updateMonth}
           components={{
             toolbar: () => (
               <div style={{ display: "flex", justifyContent: "space-between", paddingBottom: "20px" }}>
-                <button type="button" onClick={() => setDate(subMonths(date, 1))} className="botao-anterior">
+                <button type="button" onClick={() => updateMonth(subMonths(date, 1))} className="botao-anterior">
                   Mês Anterior
                 </button>
-                <div className="titulo-mes">{format(date, "MMMM yyyy", { locale: ptBR }).charAt(0).toUpperCase() + format(date, "MMMM yyyy", { locale: ptBR }).slice(1)}</div>
-                <button type="button" onClick={() => setDate(addMonths(date, 1))} className="botao-proximo">
+                <div className="titulo-mes">
+                  {format(date, "MMMM yyyy", { locale: ptBR }).charAt(0).toUpperCase() +
+                    format(date, "MMMM yyyy", { locale: ptBR }).slice(1)}
+                </div>
+                <button type="button" onClick={() => updateMonth(addMonths(date, 1))} className="botao-proximo">
                   Próximo Mês
                 </button>
               </div>
@@ -142,7 +168,7 @@ function MyCalendar() {
               <span>{label.charAt(0).toUpperCase() + label.slice(1)}</span>
             ),
             event: ({ event }) => (
-              <div 
+              <div
                 className="custom-event"
                 onClick={() => openModal(event.start)}
                 onKeyDown={(e) => {
@@ -166,7 +192,7 @@ function MyCalendar() {
           }}
         />
       </div>
-
+  
       <Modal isOpen={modalIsOpen} onRequestClose={closeModal} className="modal" overlayClassName="overlay">
         <h2>Diário {formattedSelectedDate}</h2>
         <textarea
@@ -181,6 +207,7 @@ function MyCalendar() {
       </Modal>
     </div>
   );
+  
 }
 
 export default MyCalendar;

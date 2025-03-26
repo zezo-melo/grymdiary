@@ -1,11 +1,20 @@
-import React from 'react';
-import MyCalendar from './components/Calendar';
+import React, { useState } from 'react';
+import MonthGrid from '../src/components/months/MonthGrid';
+import MyCalendar from '../src/components/calendar/Calendar';
 
 function App() {
+  const [selectedMonth, setSelectedMonth] = useState(null);
+
   return (
-    <div className="App" style={{ paddingLeft: 400, paddingRight: 400 }}>
-      <h1 style={{ textAlign: 'center' }}>Grym Diary</h1>
-      <MyCalendar />
+    <div className="App">
+      {selectedMonth === null ? (
+        <MonthGrid onSelectMonth={(index) => setSelectedMonth(index)} />
+      ) : (
+        <MyCalendar
+          month={selectedMonth}
+          onBack={() => setSelectedMonth(null)}
+        />
+      )}
     </div>
   );
 }
