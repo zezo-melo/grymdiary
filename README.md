@@ -2,6 +2,9 @@
 
 Esse é um diário digital com interface de calendário, selecione o dia e faça sua nota sobre o dia!
 
+![{F065852B-27C1-4DD8-962F-8AC2BC40EDDB}](https://github.com/user-attachments/assets/b9592d36-bbf3-4b99-9566-7be7748f0433)
+
+
 ![grymdiary](https://github.com/user-attachments/assets/fe8038d1-d9c6-409c-9978-5db38f751d69)
 
 ## Estrutura do Projeto
