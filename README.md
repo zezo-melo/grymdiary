@@ -2,8 +2,13 @@
 
 Esse é um diário digital com interface de calendário, selecione o dia e faça sua nota sobre o dia!
 
-![{F065852B-27C1-4DD8-962F-8AC2BC40EDDB}](https://github.com/user-attachments/assets/b9592d36-bbf3-4b99-9566-7be7748f0433)
+![{F50664A2-E544-4F73-A1A8-23C13BB0DF2E}](https://github.com/user-attachments/assets/93373f83-d6ea-4f76-b59d-0f87fec5a573)
 
+![{5098D0CF-6FA1-4D0C-8AA3-40EF7B40AA43}](https://github.com/user-attachments/assets/055c05ae-9358-4037-bca2-fb7c096562f0)
+
+![{BA1A01CE-F359-41F0-BA11-FE0FFC1333EC}](https://github.com/user-attachments/assets/9cadfb7f-ddf6-415d-be9c-0d1aef2f84aa)
+
+![{F065852B-27C1-4DD8-962F-8AC2BC40EDDB}](https://github.com/user-attachments/assets/b9592d36-bbf3-4b99-9566-7be7748f0433)
 
 ![{9D00DDEC-8D43-45E4-9125-A73074886473}](https://github.com/user-attachments/assets/2f2e5b6c-0488-43e2-8d41-309917f785f6)
 
