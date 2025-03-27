@@ -1,7 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
-const noteRoutes = require("./routes/notes");
 
 const app = express();
 const PORT = 5000;
@@ -15,7 +14,11 @@ mongoose.connect("mongodb://localhost:27017/grymdiary", { useNewUrlParser: true,
   .then(() => console.log("Conectado ao MongoDB"))
   .catch(err => console.error("Erro ao conectar ao MongoDB", err));
 
-// Definir as rotas
+// Rotas
+const authRoutes = require("./routes/auth");
+const noteRoutes = require("./routes/notes");
+
+app.use("/api/auth", authRoutes);
 app.use("/api/notes", noteRoutes);
 
 app.listen(PORT, () => {

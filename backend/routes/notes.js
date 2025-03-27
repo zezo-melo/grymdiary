@@ -1,47 +1,60 @@
 const express = require("express");
-const Note = require("../models/Note");
-
 const router = express.Router();
+const Note = require("../models/Note");
+const verifyToken = require("../middleware/verifyToken");
 
-// Criar uma nova nota
-router.post("/", async (req, res) => {
+// GET notas do usuário
+router.get("/", verifyToken, async (req, res) => {
   try {
-    const newNote = new Note(req.body);
-    const savedNote = await newNote.save();
-    res.status(201).json(savedNote);
+    const notes = await Note.find({ userId: req.userId });
+    res.json(notes);
+  } catch (err) {
+    res.status(500).json({ message: "Erro ao buscar notas" });
+  }
+});
+
+// POST nova nota
+router.post("/", verifyToken, async (req, res) => {
+  try {
+    const note = new Note({ ...req.body, userId: req.userId });
+    const saved = await note.save();
+    res.status(201).json(saved);
   } catch (err) {
     res.status(400).json({ message: "Erro ao criar nota", error: err });
   }
 });
 
-// Obter todas as notas
-router.get("/", async (req, res) => {
+// PUT atualizar nota
+router.put("/:id", verifyToken, async (req, res) => {
   try {
-    const notes = await Note.find();
-    res.status(200).json(notes);
-  } catch (err) {
-    res.status(400).json({ message: "Erro ao buscar notas", error: err });
-  }
-});
-
-// Atualizar uma nota existente
-router.put("/:id", async (req, res) => {
-  try {
-    const updatedNote = await Note.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    res.status(200).json(updatedNote);
+    const note = await Note.findOneAndUpdate(
+      { _id: req.params.id, userId: req.userId },
+      req.body,
+      { new: true }
+    );
+    if (!note) return res.status(404).json({ message: "Nota não encontrada" });
+    res.json(note);
   } catch (err) {
     res.status(400).json({ message: "Erro ao atualizar nota", error: err });
   }
 });
 
-// Deletar uma nota
-router.delete("/:id", async (req, res) => {
+// DELETE nota
+router.delete("/:id", verifyToken, async (req, res) => {
   try {
-    await Note.findByIdAndDelete(req.params.id);
-    res.status(200).json({ message: "Nota deletada com sucesso" });
+    const deleted = await Note.findOneAndDelete({ _id: req.params.id, userId: req.userId });
+    if (!deleted) return res.status(404).json({ message: "Nota não encontrada" });
+    res.status(204).end();
   } catch (err) {
     res.status(400).json({ message: "Erro ao deletar nota", error: err });
   }
 });
+
+router.post("/", verifyToken, async (req, res) => {
+  const note = new Note({ ...req.body, userId: req.userId }); // ESSENCIAL
+  const saved = await note.save();
+  res.status(201).json(saved);
+});
+
 
 module.exports = router;

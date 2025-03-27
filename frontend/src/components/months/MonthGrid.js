@@ -1,6 +1,8 @@
 // src/components/MonthGrid.js
 import React from 'react';
 import './MonthGrid.css';
+import LogoutButton from "../common/LogoutButton";
+
 
 const months = [
   'Janeiro', 'Fevereiro', 'Março',
@@ -11,8 +13,9 @@ const months = [
 
 export default function MonthGrid({ onSelectMonth }) {
   return (
-    <div className="month-grid-container">
+    <div className="month-grid-header">
       <h2 className="title">Grym Diary</h2>
+    <div className="month-grid-container">
       <div className="month-grid">
         {months.map((month) => (
           <button 
@@ -26,6 +29,8 @@ export default function MonthGrid({ onSelectMonth }) {
           </button>
         ))}
       </div>
+          <LogoutButton />
+    </div>
     </div>
   );
 }
