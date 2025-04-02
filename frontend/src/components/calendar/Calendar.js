@@ -1,5 +1,5 @@
 // ... imports (sem alterações)
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { Calendar } from "react-big-calendar";
 import { format, addMonths, subMonths, getDay, startOfWeek, parse } from "date-fns";
 import { dateFnsLocalizer } from "react-big-calendar";
@@ -40,11 +40,11 @@ function MyCalendar() {
   const [note, setNote] = useState("");
 
   const token = localStorage.getItem("token");
-  const config = {
+  const config = useMemo(() => ({
     headers: {
       Authorization: `Bearer ${token}`,
     },
-  };
+  }), [token]);
 
   useEffect(() => {
     axios
@@ -61,7 +61,7 @@ function MyCalendar() {
       .catch((error) => {
         console.error("Erro ao buscar notas", error);
       });
-  }, []);
+  }, [config]);
 
   const openModal = (selectedDate) => {
     const existingEvent = events.find(
