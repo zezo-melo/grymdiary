@@ -56,3 +56,9 @@
   .title-login{
     color: #333;
   }
+
+  @media (max-width: 680px) {
+    .auth-container {
+      margin: 60px 10px !important;
+    }
+  }

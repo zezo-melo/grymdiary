@@ -42,3 +42,9 @@
   .month-grid-header{
     justify-items: center;
   }
+
+  @media (max-width: 600px) {
+    .month-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }

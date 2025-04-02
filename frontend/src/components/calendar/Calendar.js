@@ -1,4 +1,3 @@
-// ... imports (sem alterações)
 import React, { useState, useEffect, useMemo } from "react";
 import { Calendar } from "react-big-calendar";
 import { format, addMonths, subMonths, getDay, startOfWeek, parse } from "date-fns";
@@ -11,7 +10,6 @@ import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import "./styles.css";
 
-// ... locale setup
 const locales = { "pt-BR": ptBR };
 const localizer = dateFnsLocalizer({
   format: (date, formatStr) => format(date, formatStr, { locale: ptBR }),
@@ -38,6 +36,7 @@ function MyCalendar() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
   const [note, setNote] = useState("");
+  const [activeEventId, setActiveEventId] = useState(null);
 
   const token = localStorage.getItem("token");
   const config = useMemo(() => ({
@@ -51,10 +50,11 @@ function MyCalendar() {
       .get("http://localhost:5000/api/notes", config)
       .then((response) => {
         const fetchedEvents = response.data.map((note) => ({
-          start: new Date(note.start),
-          end: new Date(note.end),
+          start: new Date(new Date(note.start).setHours(8, 0, 0)),
+          end: new Date(new Date(note.end).setHours(9, 0, 0)),
           title: note.title,
           _id: note._id,
+          allDay: false,
         }));
         setEvents(fetchedEvents);
       })
@@ -70,6 +70,7 @@ function MyCalendar() {
     setNote(existingEvent ? existingEvent.title : "");
     setSelectedDate(selectedDate);
     setModalIsOpen(true);
+    setActiveEventId(null);
   };
 
   const closeModal = () => {
@@ -81,10 +82,16 @@ function MyCalendar() {
   const saveNote = () => {
     if (!selectedDate) return;
 
+    const startDate = new Date(selectedDate);
+    startDate.setHours(8, 0, 0);
+    const endDate = new Date(selectedDate);
+    endDate.setHours(9, 0, 0);
+
     const eventData = {
-      start: new Date(selectedDate),
-      end: new Date(selectedDate),
+      start: startDate,
+      end: endDate,
       title: note,
+      allDay: false,
     };
 
     const existingEvent = events.find(
@@ -139,7 +146,6 @@ function MyCalendar() {
 
   return (
     <div>
-      {/* Header com botão de voltar e título */}
       <div className="calendar-page-header">
         <button
           type="button"
@@ -158,11 +164,13 @@ function MyCalendar() {
           startAccessor="start"
           endAccessor="end"
           style={{ height: "100%" }}
-          selectable
+          selectable="ignoreEvents"
           onSelectSlot={({ start }) => openModal(start)}
           views={["month"]}
           date={date}
           onNavigate={updateMonth}
+          popup={true}
+          showAllDayEvents={false}
           components={{
             toolbar: () => (
               <div
@@ -196,12 +204,17 @@ function MyCalendar() {
               <span>{label.charAt(0).toUpperCase() + label.slice(1)}</span>
             ),
             event: ({ event }) => (
-              <div
-                className="custom-event"
-                onClick={() => openModal(event.start)}
+              <button
+                type="button"
+                className={`custom-event ${activeEventId === event._id ? "show-actions" : ""}`}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setActiveEventId(activeEventId === event._id ? null : event._id);
+                }}
                 onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    openModal(event.start);
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.stopPropagation();
+                    setActiveEventId(activeEventId === event._id ? null : event._id);
                   }
                 }}
                 style={{ cursor: "pointer" }}
@@ -229,7 +242,7 @@ function MyCalendar() {
                     <FaTrash />
                   </button>
                 </div>
-              </div>
+              </button>
             ),
           }}
         />

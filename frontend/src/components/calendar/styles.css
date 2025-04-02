@@ -120,6 +120,7 @@
   text-align: center;
   padding: 5px;
   font-size: 14px;
+  margin-top: 10px;
 }
 
 .event-text {
@@ -145,7 +146,7 @@
   cursor: pointer;
   font-size: 14px;
   color: white;
-  padding: 2px;
+  padding: 0px;
 }
 
 .edit-btn:hover {
@@ -160,7 +161,7 @@
 .rbc-event .event-buttons {
   display: flex;
   justify-content: center;
-  gap: 5px;
+  gap: 2px;
   margin-top: 5px;
 }
 
@@ -176,6 +177,7 @@
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  
 }
 
 /* Centralizar o calendário na tela */
@@ -211,14 +213,15 @@
 
 /* Estilo dos eventos */
 .custom-event {
-  background-color: #0d6efd;
+  background-color: #3174ad;
   color: white;
+  border: none;
   padding: 4px;
-  border-radius: 4px;
   font-size: 0.9rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  
 }
 
 .event-actions button {
@@ -227,11 +230,13 @@
   color: white;
   cursor: pointer;
   margin-left: 4px;
+  
 }
 
 .event-actions button:hover {
   opacity: 0.7;
 }
+
 
 .calendar-page-header {
   display: flex;
@@ -267,4 +272,72 @@
 
 .calendar-page-header{
   justify-content: center;
+}
+
+@media (max-width: 768px) {
+
+  .back-round-button{
+    margin-top: 20px;
+    margin-bottom: -10px;
+  }
+
+  .calendar-page-header {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    text-align: center;
+  }
+
+  .calendar-page-header h2 {
+    font-size: 1.3rem;
+    margin-bottom: -20px;
+  }
+
+  .titulo-mes {
+    margin-top: 6px;
+    font-size: 0.9rem;
+    text-align: center;
+  }
+
+  .botao-anterior,
+  .botao-proximo {
+    font-size: 0.8rem;
+    padding: 6px 12px;
+    width: 32%;
+    margin: 0.25rem 0;
+  }
+
+  .rbc-calendar {
+    font-size: 0.75rem;
+  }
+
+  .rbc-toolbar {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .custom-event .event-text {
+    font-size: 0.7rem;
+  }
+
+  .event-actions button {
+    font-size: 0.7rem;
+    padding: 2px 4px;
+  }
+
+  .modal{
+    margin: 10px;
+  }
+  
+}
+
+/* Oculta os botões de ação no mobile */
+@media (max-width: 768px) {
+  .custom-event .event-actions {
+    display: none;
+  }
+
+  .custom-event.show-actions .event-actions {
+    display: flex;
+  }
 }
