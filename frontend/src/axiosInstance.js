@@ -6,7 +6,7 @@ const axiosInstance = axios.create({
 
 
 // Interceptador de respostas
-instance.interceptors.response.use(
+axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response && [401, 403].includes(error.response.status)) {
