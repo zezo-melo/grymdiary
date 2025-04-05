@@ -6,7 +6,7 @@ import ptBR from "date-fns/locale/pt-BR";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import Modal from "react-modal";
 import { FaTrash, FaEdit } from "react-icons/fa";
-import axios from "axios";
+import axios from "../../axiosInstance";
 import { useNavigate, useParams } from "react-router-dom";
 import "./styles.css";
 
@@ -169,7 +169,7 @@ function MyCalendar() {
           views={["month"]}
           date={date}
           onNavigate={updateMonth}
-          popup={true}
+          popup
           showAllDayEvents={false}
           components={{
             toolbar: () => (
@@ -217,7 +217,14 @@ function MyCalendar() {
                     setActiveEventId(activeEventId === event._id ? null : event._id);
                   }
                 }}
-                style={{ cursor: "pointer" }}
+                style={{
+                  cursor: "pointer",
+                  background: "none",
+                  border: "none",
+                  width: "100%",
+                  textAlign: "left",
+                  padding: 0,
+                }}
               >
                 <div className="event-text">{event.title}</div>
                 <div className="event-actions">

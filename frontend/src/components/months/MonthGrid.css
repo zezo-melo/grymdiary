@@ -1,6 +1,10 @@
-.month-grid-container {
+  .month-grid-container {
     text-align: center;
     padding: 40px 20px;
+  }
+
+  .month-grid-header{
+    margin-top: 100px;
   }
   
   .title {
