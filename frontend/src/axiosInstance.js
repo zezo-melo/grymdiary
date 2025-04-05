@@ -1,8 +1,9 @@
 import axios from "axios";
 
-const instance = axios.create({
-  baseURL: "http://localhost:5000/api",
+const axiosInstance = axios.create({
+  baseURL: 'https://grym-diary.onrender.com/api',
 });
+
 
 // Interceptador de respostas
 instance.interceptors.response.use(
