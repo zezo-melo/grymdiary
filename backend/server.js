@@ -11,7 +11,7 @@ app.use(express.json());
 app.use(cors());
 
 // Conectar ao MongoDB
-mongoose.connect("mongodb://localhost:27017/grymdiary", { useNewUrlParser: true, useUnifiedTopology: true })
+  mongoose.connect("mongodb://localhost:27017/grymdiary", { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log("Conectado ao MongoDB"))
   .catch(err => console.error("Erro ao conectar ao MongoDB", err));
 
