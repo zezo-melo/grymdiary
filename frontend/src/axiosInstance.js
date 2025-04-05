@@ -17,4 +17,6 @@ axiosInstance.interceptors.response.use(
   }
 );
 
+
+// Forçando rebuild da Vercel
 export default axiosInstance;
