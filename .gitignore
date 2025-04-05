@@ -1,7 +1,13 @@
-backend/
-.vscode/
-frontend/node_modules/
-backend/node_modules
-frontend/node_modules
+# Ignora dependências
 node_modules/
-.env
+frontend/node_modules/
+backend/node_modules/
+
+# Ignora configs do VSCode
+.vscode/
+
+# Ignora variáveis de ambiente
+*.env
+
+# Ignora arquivos temporários
+.DS_Store
