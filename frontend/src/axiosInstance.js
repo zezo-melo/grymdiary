@@ -1,11 +1,9 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-  baseURL: 'https://grym-diary.onrender.com/api',
+  baseURL: process.env.REACT_APP_BASE_URL || "http://localhost:5000/",
 });
 
-
-// Interceptador de respostas
 axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
@@ -17,6 +15,4 @@ axiosInstance.interceptors.response.use(
   }
 );
 
-
-// Forçando rebuild da Vercel
 export default axiosInstance;

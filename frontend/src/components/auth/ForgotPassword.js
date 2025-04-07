@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./ForgotPassword.css";
+const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState("");
@@ -15,7 +16,7 @@ export default function ForgotPassword() {
     setErro("");
 
     try {
-      const response = await axios.post("http://localhost:5000/api/auth/forgot-password", {
+      const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/auth/forgot-password`, {
         email,
       });
       setMensagem(response.data.message || "E-mail enviado com sucesso!");
