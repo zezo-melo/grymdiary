@@ -51,4 +51,8 @@
     .month-grid {
       grid-template-columns: repeat(2, 1fr);
     }
+
+    .month-grid-header {
+      margin-top: 0px;
+  }
   }

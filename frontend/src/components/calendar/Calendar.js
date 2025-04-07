@@ -164,7 +164,8 @@ function MyCalendar() {
           startAccessor="start"
           endAccessor="end"
           style={{ height: "100%" }}
-          selectable="ignoreEvents"
+          // selectable="ignoreEvents"
+          selectable={true}
           onSelectSlot={({ start }) => openModal(start)}
           views={["month"]}
           date={date}
