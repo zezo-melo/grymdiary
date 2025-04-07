@@ -6,7 +6,7 @@ import ptBR from "date-fns/locale/pt-BR";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import Modal from "react-modal";
 import { FaTrash, FaEdit } from "react-icons/fa";
-import axios from "../../axiosInstance";
+import axiosInstance from "../../axiosInstance";
 import { useNavigate, useParams } from "react-router-dom";
 import "./styles.css";
 
@@ -46,8 +46,8 @@ function MyCalendar() {
   }), [token]);
 
   useEffect(() => {
-    axios
-      .get("http://localhost:5000/api/notes", config)
+    axiosInstance
+      .get("/api/notes", config)
       .then((response) => {
         const fetchedEvents = response.data.map((note) => ({
           start: new Date(new Date(note.start).setHours(8, 0, 0)),
@@ -99,8 +99,8 @@ function MyCalendar() {
     );
 
     if (existingEvent) {
-      axios
-        .put(`http://localhost:5000/api/notes/${existingEvent._id}`, eventData, config)
+      axiosInstance
+        .put(`/api/notes/${existingEvent._id}`, eventData, config)
         .then(() => {
           setEvents((prevEvents) =>
             prevEvents.map((event) =>
@@ -112,8 +112,8 @@ function MyCalendar() {
           console.error("Erro ao atualizar nota", error);
         });
     } else {
-      axios
-        .post("http://localhost:5000/api/notes", eventData, config)
+      axiosInstance
+        .post("/api/notes", eventData, config)
         .then((response) => {
           setEvents((prevEvents) => [
             ...prevEvents,
@@ -131,8 +131,8 @@ function MyCalendar() {
   const deleteNote = (eventToDelete) => {
     setEvents((prevEvents) => prevEvents.filter((event) => event !== eventToDelete));
 
-    axios
-      .delete(`http://localhost:5000/api/notes/${eventToDelete._id}`, config)
+    axiosInstance
+      .delete(`/api/notes/${eventToDelete._id}`, config)
       .catch((error) => {
         console.error("Erro ao deletar nota", error);
       });
